@@ -1,0 +1,491 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% static 'img/default-avatar.svg' as default_avatar %}
+
+{% block title %}About - My Portfolio{% endblock %}
+
+{% block content %}
+<style>
+  .about {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 80px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+  }
+
+  .about .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about h1 {
+    color: white;
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: rgba(255,255,255,0.95);
+    font-size: 1.3rem;
+    margin-bottom: 60px;
+    font-weight: 300;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .hero-card {
+    background: rgba(255,255,255,0.98);
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    transition: transform 0.3s ease;
+  }
+
+  .hero-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .profile-section {
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .profile-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #667eea;
+    box-shadow: 0 10px 40px rgba(102,126,234,0.4);
+    transition: transform 0.3s ease;
+  }
+
+  .profile-image:hover {
+    transform: scale(1.05);
+  }
+
+  .profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  .profile-title {
+    color: #667eea;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .social-links a {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+  }
+
+  .social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+  }
+
+  .intro-text {
+    flex: 1;
+  }
+
+  .intro-text h2 {
+    font-size: 2rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .intro-text p {
+    color: #4a5568;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+  }
+
+  .intro-text strong {
+    color: #667eea;
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+  }
+
+  .expertise-card {
+    background: rgba(255,255,255,0.98);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .expertise-card:hover {
+    transform: translateY(-8px);
+    border-color: #667eea;
+    box-shadow: 0 15px 40px rgba(102,126,234,0.3);
+  }
+
+  .expertise-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+  }
+
+  .expertise-card h3 {
+    color: #2d3748;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .expertise-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .expertise-card li {
+    color: #4a5568;
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .expertise-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+  }
+
+  .skills-showcase {
+    background: rgba(255,255,255,0.98);
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .skills-showcase h3 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skill-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .skill-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+  }
+
+  .cta-section {
+    background: rgba(255,255,255,0.98);
+    border-radius: 20px;
+    padding: 50px;
+    margin-top: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .cta-section h3 {
+    color: #2d3748;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  .cta-section p {
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+  }
+
+  .btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+  }
+
+  .btn-secondary:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+  }
+
+  @media (max-width: 968px) {
+    .hero-card {
+      flex-direction: column;
+      padding: 35px;
+    }
+
+    .about h1 {
+      font-size: 2.5rem;
+    }
+
+    .expertise-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about {
+      padding: 60px 15px;
+    }
+
+    .about h1 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<section id="about" class="section about">
+  <div class="container">
+    <h1>About Me</h1>
+    <p class="subtitle">Building the Future with Cloud, AI & Automation</p>
+
+    <!-- Hero Card with Profile -->
+    <div class="hero-card">
+      <div class="profile-section">
+        <img src="{% static 'img/andi.jpg' %}" alt="Andi Photo" class="profile-image" onerror="this.onerror=null;this.src='{{ default_avatar }}'">
+        <h2 class="profile-name">Andi</h2>
+        <p class="profile-title">Cloud & DevOps Engineer</p>
+        <div class="social-links">
+          <a href="#" title="LinkedIn">in</a>
+          <a href="#" title="GitHub">gh</a>
+          <a href="#" title="Email">@</a>
+        </div>
+      </div>
+
+      <div class="intro-text">
+        <h2>Passionate Technology Engineer</h2>
+        <p><strong>I transform complex challenges into elegant, scalable solutions.</strong></p>
+        <p>As a versatile technology engineer, I specialize in building modern infrastructure that powers tomorrow's innovations. My expertise spans across Cloud Computing, DevOps practices, Network Engineering, IoT Development, Cybersecurity, and AI Engineering.</p>
+        <p>With hands-on experience from academic labs, industry training, and professional certifications, I deliver production-ready solutions that combine security, scalability, and intelligence. I believe in automation-first approaches and infrastructure as code to create reliable, maintainable systems.</p>
+      </div>
+    </div>
+
+    <!-- Expertise Areas -->
+    <div class="expertise-grid">
+      <div class="expertise-card">
+        <div class="expertise-icon">☁️</div>
+        <h3>Cloud & Infrastructure</h3>
+        <ul>
+          <li>Google Cloud Platform & AWS</li>
+          <li>Kubernetes orchestration</li>
+          <li>Docker containerization</li>
+          <li>Terraform IaC</li>
+        </ul>
+      </div>
+
+      <div class="expertise-card">
+        <div class="expertise-icon">⚙️</div>
+        <h3>DevOps & Automation</h3>
+        <ul>
+          <li>CI/CD pipelines</li>
+          <li>GitHub Actions</li>
+          <li>Cloud Build integration</li>
+          <li>Infrastructure automation</li>
+        </ul>
+      </div>
+
+      <div class="expertise-card">
+        <div class="expertise-icon">🌐</div>
+        <h3>Network Engineering</h3>
+        <ul>
+          <li>Enterprise networking (Mikrotik, Cisco)</li>
+          <li>VLAN & routing design</li>
+          <li>Network security</li>
+          <li>Performance optimization</li>
+        </ul>
+      </div>
+
+      <div class="expertise-card">
+        <div class="expertise-icon">🤖</div>
+        <h3>AI & Machine Learning</h3>
+        <ul>
+          <li>Python development</li>
+          <li>TensorFlow & scikit-learn</li>
+          <li>Predictive modeling</li>
+          <li>Data analysis</li>
+        </ul>
+      </div>
+
+      <div class="expertise-card">
+        <div class="expertise-icon">🔒</div>
+        <h3>Cybersecurity</h3>
+        <ul>
+          <li>Secure-by-design principles</li>
+          <li>Vulnerability assessment</li>
+          <li>Security best practices</li>
+          <li>Compliance & auditing</li>
+        </ul>
+      </div>
+
+      <div class="expertise-card">
+        <div class="expertise-icon">📡</div>
+        <h3>IoT Development</h3>
+        <ul>
+          <li>ESP32 microcontrollers</li>
+          <li>MQTT protocols</li>
+          <li>Real-time monitoring</li>
+          <li>Dashboard systems</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Skills Showcase -->
+    <div class="skills-showcase">
+      <h3>Technical Arsenal</h3>
+      <ul class="skills">
+        <li class="skill-badge">Google Cloud</li>
+        <li class="skill-badge">AWS</li>
+        <li class="skill-badge">Kubernetes</li>
+        <li class="skill-badge">Docker</li>
+        <li class="skill-badge">Terraform</li>
+        <li class="skill-badge">CI/CD</li>
+        <li class="skill-badge">Python</li>
+        <li class="skill-badge">GitHub Actions</li>
+        <li class="skill-badge">Mikrotik</li>
+        <li class="skill-badge">Cisco</li>
+        <li class="skill-badge">ESP32</li>
+        <li class="skill-badge">TensorFlow</li>
+        <li class="skill-badge">Linux</li>
+        <li class="skill-badge">MQTT</li>
+      </ul>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <h3>Let's Build Something Amazing</h3>
+      <p>Ready to discuss your next project or explore collaboration opportunities?</p>
+      <div class="cta-buttons">
+        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        <a href="#projects" class="btn btn-secondary">View My Work</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

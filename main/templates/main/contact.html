@@ -1,0 +1,468 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Contact - Andi Setiawan | Cloud & DevOps Engineer{% endblock %}
+
+{% block content %}
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        padding: 120px 20px 80px;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .contact-hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .contact-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        letter-spacing: -1px;
+    }
+
+    .contact-hero p {
+        font-size: 1.4rem;
+        opacity: 0.95;
+        line-height: 1.6;
+        font-weight: 300;
+    }
+
+    .contact-section {
+        padding: 80px 20px;
+        background: #f7fafc;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        margin-top: 40px;
+    }
+
+    .contact-info {
+        background: white;
+        padding: 50px;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .contact-info h2 {
+        font-size: 2rem;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+    }
+
+    .contact-info p {
+        color: #4a5568;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        font-size: 1.05rem;
+    }
+
+    .contact-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: #f7fafc;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .contact-item:hover {
+        background: white;
+        border-color: #3b82f6;
+        transform: translateX(5px);
+        box-shadow: 0 4px 15px rgba(59,130,246,0.2);
+    }
+
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(30,58,138,0.3);
+    }
+
+    .contact-details {
+        flex: 1;
+    }
+
+    .contact-label {
+        font-size: 0.85rem;
+        color: #718096;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .contact-value {
+        font-size: 1.1rem;
+        color: #2d3748;
+        font-weight: 600;
+    }
+
+    .contact-value a {
+        color: #1e3a8a;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .contact-value a:hover {
+        color: #3b82f6;
+    }
+
+    .social-links-section {
+        background: white;
+        padding: 50px;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .social-links-section h2 {
+        font-size: 2rem;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+    }
+
+    .social-links-section p {
+        color: #4a5568;
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+        font-size: 1.05rem;
+    }
+
+    .social-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .social-card {
+        padding: 25px;
+        background: #f7fafc;
+        border-radius: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        text-decoration: none;
+        display: block;
+    }
+
+    .social-card:hover {
+        background: white;
+        border-color: #3b82f6;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(59,130,246,0.2);
+    }
+
+    .social-card-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 15px;
+        box-shadow: 0 6px 20px rgba(30,58,138,0.3);
+    }
+
+    .social-card-name {
+        font-size: 1.1rem;
+        color: #2d3748;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .social-card-handle {
+        font-size: 0.9rem;
+        color: #1e3a8a;
+        font-weight: 600;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        padding: 60px;
+        border-radius: 24px;
+        text-align: center;
+        color: white;
+        margin-top: 50px;
+        box-shadow: 0 20px 60px rgba(30,58,138,0.3);
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta-btn {
+        padding: 16px 40px;
+        background: white;
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        font-size: 1.05rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: inline-block;
+    }
+
+    .cta-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        background: #f0f9ff;
+    }
+
+    .cta-btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .cta-btn-secondary:hover {
+        background: white;
+        color: #1e3a8a;
+    }
+
+    .availability-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #059669;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        border: 2px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .availability-dot {
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    @media (max-width: 968px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .social-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .contact-info,
+        .social-links-section {
+            padding: 35px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .contact-hero {
+            padding: 100px 15px 60px;
+        }
+
+        .contact-section {
+            padding: 60px 15px;
+        }
+
+        .contact-hero h1 {
+            font-size: 2rem;
+        }
+
+        .contact-hero p {
+            font-size: 1.2rem;
+        }
+
+        .cta-section {
+            padding: 40px 25px;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+        }
+
+        .cta-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<section class="contact-hero">
+    <div class="contact-hero-content">
+        <h1>Let's Connect!</h1>
+        <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <div class="availability-badge">
+                    <span class="availability-dot"></span>
+                    Available for Projects
+                </div>
+
+                <h2>Get in Touch</h2>
+                <p>Feel free to reach out through any of these channels. I typically respond within 24 hours.</p>
+
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">
+                                <a href="mailto:andisetiawan0890@gmail.com">andisetiawan0890@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <div class="contact-label">Location</div>
+                            <div class="contact-value">Bandar Lampung, Indonesia</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <div class="contact-label">LinkedIn</div>
+                            <div class="contact-value">
+                                <a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank" rel="noopener noreferrer">/in/andi-setiawan</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-links-section">
+                <h2>Connect on Social</h2>
+                <p>Follow my journey, check out my code, or watch my tech tutorials on these platforms.</p>
+
+                <div class="social-grid">
+                    <a href="https://github.com/andisetiawann" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-card-icon">💻</div>
+                        <div class="social-card-name">GitHub</div>
+                        <div class="social-card-handle">@andisetiawann</div>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-card-icon">💼</div>
+                        <div class="social-card-name">LinkedIn</div>
+                        <div class="social-card-handle">Andi Setiawan</div>
+                    </a>
+
+                    <a href="https://www.youtube.com/@AndiSetiawan-wh9je" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-card-icon">🎥</div>
+                        <div class="social-card-name">YouTube</div>
+                        <div class="social-card-handle">@AndiSetiawan</div>
+                    </a>
+
+                    <a href="mailto:andisetiawan0890@gmail.com" class="social-card">
+                        <div class="social-card-icon">📧</div>
+                        <div class="social-card-name">Email</div>
+                        <div class="social-card-handle">Quick Message</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2>Ready to Start a Project?</h2>
+            <p>Let's build something amazing together. Whether it's cloud infrastructure, DevOps automation, or network solutions.</p>
+            <div class="cta-buttons">
+                <a href="mailto:andisetiawan0890@gmail.com" class="cta-btn">
+                    📧 Send Me an Email
+                </a>
+                <a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank" rel="noopener noreferrer" class="cta-btn cta-btn-secondary">
+                    💼 Connect on LinkedIn
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,395 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Projects - Andi Setiawan | Portfolio{% endblock %}
+
+{% block content %}
+<style>
+    .projects-hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        padding: 120px 20px 80px;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .projects-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .projects-hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .projects-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        letter-spacing: -1px;
+    }
+
+    .projects-hero p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        line-height: 1.6;
+    }
+
+    .projects-section {
+        padding: 80px 20px;
+        background: #f7fafc;
+        min-height: 60vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 12px 28px;
+        background: white;
+        color: #4a5568;
+        border: 2px solid #e2e8f0;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30,58,138,0.3);
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 35px;
+        margin-top: 40px;
+    }
+
+    .proj-card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .proj-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .proj-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .proj-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 20px 50px rgba(30,58,138,0.15);
+        border-color: #3b82f6;
+    }
+
+    .proj-card h3 {
+        font-size: 1.6rem;
+        color: #2d3748;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .muted {
+        display: inline-block;
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .proj-card > p:not(.muted):not(.links) {
+        color: #4a5568;
+        line-height: 1.7;
+        margin-bottom: 1.8rem;
+        font-size: 1rem;
+    }
+
+    .links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: auto;
+    }
+
+    .links a {
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 10px 24px;
+        background: rgba(30,58,138,0.08);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        border: 2px solid transparent;
+    }
+
+    .links a:hover {
+        background: #1e3a8a;
+        color: white;
+        transform: translateY(-2px);
+        border-color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(30,58,138,0.3);
+    }
+
+    .project-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 25px;
+        margin-bottom: 60px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #1e3a8a;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #4a5568;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .no-projects {
+        text-align: center;
+        padding: 80px 20px;
+        color: #718096;
+        font-size: 1.1rem;
+    }
+
+    .empty-state {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .empty-state svg {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+        .projects-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .projects-hero p {
+            font-size: 1.1rem;
+        }
+
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-buttons {
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        .project-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .projects-hero {
+            padding: 100px 15px 60px;
+        }
+
+        .projects-section {
+            padding: 60px 15px;
+        }
+
+        .proj-card {
+            padding: 25px;
+        }
+
+        .proj-card h3 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+
+<section class="projects-hero">
+    <div class="projects-hero-content">
+        <h1>My Projects</h1>
+        <p>Explore my portfolio of cloud infrastructure, DevOps automation, network engineering, and IoT development projects</p>
+    </div>
+</section>
+
+<section class="projects-section">
+    <div class="container">
+        <!-- Project Statistics -->
+        <div class="project-stats">
+            <div class="stat-card">
+                <span class="stat-number">{{ projects|length }}</span>
+                <span class="stat-label">Total Projects</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">6+</span>
+                <span class="stat-label">Technologies</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Production Ready</span>
+            </div>
+        </div>
+
+        <!-- Filter Buttons (Optional - can be implemented with JS) -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="cloud">Cloud & DevOps</button>
+            <button class="filter-btn" data-filter="network">Network</button>
+            <button class="filter-btn" data-filter="iot">IoT</button>
+            <button class="filter-btn" data-filter="ai">AI/ML</button>
+        </div>
+
+        <!-- Projects Grid -->
+        {% if projects %}
+        <div class="projects-grid">
+            {% for p in projects %}
+            <article class="proj-card" data-category="{{ p.category|default:'all' }}">
+                <h3>{{ p.title }}</h3>
+                <p class="muted">{{ p.tech }}</p>
+                <p>{{ p.desc }}</p>
+                <div class="links">
+                    <a href="{{ p.repo }}" target="_blank" rel="noopener noreferrer">
+                        <span>📦</span> Repository
+                    </a>
+                    <a href="{{ p.doc }}" target="_blank" rel="noopener noreferrer">
+                        <span>📄</span> Documentation
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-projects">
+            <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <h3>No Projects Yet</h3>
+                <p>Projects will be displayed here once added.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.proj-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filter = button.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+
+    // Add smooth transitions
+    projectCards.forEach(card => {
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    });
+</script>
+
+{% endblock %}

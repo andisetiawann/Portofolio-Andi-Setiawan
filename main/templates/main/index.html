@@ -1,0 +1,561 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Home - Andi Setiawan | Cloud & DevOps Engineer{% endblock %}
+
+{% block content %}
+<style>
+    /* Hero Section */
+    .hero {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 100px 20px 60px;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+
+    .hero-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-text {
+        color: white;
+    }
+
+    .hello {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #f0f9ff;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-name {
+        font-size: 4rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+        color: #ffffff;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        letter-spacing: -2px;
+    }
+
+    .hero-roles {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+
+    .hero-roles span {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba(255,255,255,0.95);
+        color: #1e3a8a;
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        margin: 5px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .hero-desc {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        color: #f0f9ff;
+        max-width: 550px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-btn {
+        display: inline-block;
+        padding: 16px 40px;
+        background: white;
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        background: #f0f9ff;
+    }
+
+    .hero-image-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-image-bg {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 50%;
+        padding: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 8px solid white;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    /* About Section */
+    .about-section {
+        padding: 100px 20px;
+        background: #f7fafc;
+    }
+
+    .about-section .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .about-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 50px;
+        margin-top: 40px;
+    }
+
+    .about-left h2 {
+        font-size: 2.5rem;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+    }
+
+    .lead {
+        font-size: 1.2rem;
+        color: #4a5568;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+    }
+
+    .about-left p {
+        color: #4a5568;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .meta {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e2e8f0;
+    }
+
+    .meta > div {
+        display: flex;
+        margin-bottom: 1rem;
+        align-items: center;
+    }
+
+    .meta strong {
+        color: #2d3748;
+        font-weight: 700;
+        min-width: 120px;
+    }
+
+    .meta span {
+        color: #4a5568;
+    }
+
+    .meta a {
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .meta a:hover {
+        color: #3b82f6;
+    }
+
+    .about-right {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .card-skills, .card-quick {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .card-skills:hover, .card-quick:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-skills h3 {
+        font-size: 1.4rem;
+        color: #2d3748;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+
+    .skill-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .skill-list li {
+        padding: 12px 0;
+        color: #4a5568;
+        font-weight: 600;
+        border-bottom: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        padding-left: 25px;
+        position: relative;
+    }
+
+    .skill-list li:last-child {
+        border-bottom: none;
+    }
+
+    .skill-list li::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: #1e3a8a;
+        font-weight: bold;
+    }
+
+    .skill-list li:hover {
+        color: #1e3a8a;
+        padding-left: 30px;
+    }
+
+    .small-muted {
+        color: #718096;
+        font-size: 0.95rem;
+        text-align: center;
+        line-height: 1.6;
+    }
+
+    /* Projects Section */
+    .projects-section {
+        padding: 100px 20px;
+        background: white;
+    }
+
+    .projects-section h2 {
+        font-size: 2.5rem;
+        color: #2d3748;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-weight: 800;
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .proj-card {
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .proj-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(30,58,138,0.2);
+        border-color: #1e3a8a;
+    }
+
+    .proj-card h3 {
+        font-size: 1.5rem;
+        color: #2d3748;
+        margin-bottom: 0.8rem;
+        font-weight: 700;
+    }
+
+    .muted {
+        color: #1e3a8a;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .proj-card > p:not(.muted):not(.links) {
+        color: #4a5568;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .links {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .links a {
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 20px;
+        background: rgba(30,58,138,0.1);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .links a:hover {
+        background: #1e3a8a;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* Contact Section */
+    .contact {
+        padding: 100px 20px;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        text-align: center;
+        color: white;
+    }
+
+    .contact h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+    }
+
+    .contact p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+    }
+
+    .contact-buttons {
+        margin-top: 2rem;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .contact-btn {
+        padding: 15px 35px;
+        background: white;
+        color: #1e3a8a;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        display: inline-block;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 968px) {
+        .hero-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .hero-name {
+            font-size: 3rem;
+        }
+
+        .hero-desc {
+            max-width: 100%;
+        }
+
+        .hero-image-bg {
+            width: 300px;
+            height: 300px;
+        }
+
+        .about-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .hero {
+            padding: 80px 15px 40px;
+        }
+
+        .hero-name {
+            font-size: 2.5rem;
+        }
+
+        .hero-roles {
+            font-size: 1.2rem;
+        }
+
+        .hero-roles span {
+            display: block;
+            margin: 8px 0;
+        }
+
+        .about-section {
+            padding: 60px 15px;
+        }
+
+        .about-left h2, .projects-section h2, .contact h2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-text">
+            <p class="hello">Halo 👋, saya</p>
+            <h1 class="hero-name">Andi Setiawan</h1>
+
+            <h2 class="hero-roles">
+                <span>Network Engineer</span>
+                <span>Cloud Engineer</span>
+                <span>IT Security</span>
+            </h2>
+
+            <p class="hero-desc">
+                Membangun infrastruktur jaringan yang aman, scalable, dan modern
+                dengan menerapkan cloud computing, network engineering, dan
+                keamanan sistem.
+            </p>
+
+            <a href="#contact" class="hero-btn">Hubungi Saya</a>
+        </div>
+
+        <div class="hero-image-wrapper">
+            <div class="hero-image-bg">
+                <img src="{% static 'img/andi.jpg' %}" alt="Andi Setiawan" class="hero-image" onerror="this.onerror=null;this.src='{{ default_avatar }}';">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="section about-section">
+    <div class="container about-grid">
+        <div class="about-left">
+            <h2>About Me</h2>
+            <p class="lead">
+                I am a Cloud & DevOps Engineer with strong experience in modern infrastructure, network engineering, and IoT development. 
+                Currently pursuing a Bachelor of Applied Science in Internet Engineering Technology at Politeknik Negeri Lampung, I focus on building scalable cloud architectures, secure network systems, and intelligent automation using Python.
+            </p>
+
+            <p>
+                I have hands-on experience with Google Cloud, AWS, Kubernetes, Docker, CI/CD pipelines, and infrastructure provisioning using Terraform.
+                My technical background also includes configuring enterprise networks (VLAN, Routing, Switching, Mikrotik, Cisco), developing IoT-based monitoring systems, and implementing cybersecurity practices.
+            </p>
+
+            <div class="meta">
+                <div><strong>Location</strong><span>Bandar Lampung, Indonesia</span></div>
+                <div><strong>Email</strong><span>andisetiawan0890@gmail.com</span></div>
+                <div><strong>LinkedIn</strong><span><a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank">/in/andi-setiawan-a67b05280</a></span></div>
+            </div>
+        </div>
+
+        <aside class="about-right">
+            <div class="card-skills">
+                <h3>Core Expertise</h3>
+                <ul class="skill-list">
+                    <li>Cloud & DevOps</li>
+                    <li>Network Engineering</li>
+                    <li>IoT Development</li>
+                    <li>AI / Machine Learning</li>
+                    <li>Web Development</li>
+                    <li>IT Security</li>
+                </ul>
+            </div>
+
+            <div class="card-quick">
+                <p class="small-muted">Andi Setiawan — Cloud & DevOps / Network / IoT</p>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section id="projects" class="section projects-section">
+    <div class="container">
+        <h2>Selected Projects</h2>
+
+        <div class="projects-grid">
+            {% for p in projects %}
+            <article class="proj-card">
+                <h3>{{ p.title }}</h3>
+                <p class="muted">{{ p.tech }}</p>
+                <p>{{ p.desc }}</p>
+                <div class="links">
+                    <a href="{{ p.repo }}" target="_blank">View Repo</a>
+                    <a href="{{ p.doc }}" target="_blank">Documentation</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section contact">
+    <div class="container">
+        <h2>Let's Work Together</h2>
+        <p>Tertarik untuk berkolaborasi? Hubungi saya melalui email atau LinkedIn</p>
+        <div class="contact-buttons">
+            <a href="mailto:andisetiawan0890@gmail.com" class="contact-btn">Email Me</a>
+            <a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank" class="contact-btn">LinkedIn</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

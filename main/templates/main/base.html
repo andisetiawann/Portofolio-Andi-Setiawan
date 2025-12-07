@@ -1,0 +1,395 @@
+{% load static %}
+{% static 'img/default-avatar.svg' as default_avatar %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}My Portfolio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .site-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .site-header.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-list li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-list li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-list li a:hover {
+            color: #667eea;
+        }
+
+        .nav-list li a:hover::after {
+            width: 80%;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .site-footer .container {
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: #667eea;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-list {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-list.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .nav-list li {
+                width: 100%;
+            }
+
+            .nav-list li a {
+                display: block;
+                padding: 1rem 2rem;
+                border-radius: 0;
+            }
+
+            .nav-list li a::after {
+                display: none;
+            }
+
+            .nav-list li a:hover {
+                background: rgba(102, 126, 234, 0.1);
+            }
+
+            .mobile-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .mobile-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(8px, -8px);
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <a class="logo" href="{% url 'main:home' %}">MyPortfolio</a>
+                <div class="mobile-toggle" id="mobileToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-list" id="navList">
+                    <li><a href="{% url 'main:home' %}">Home</a></li>
+                    <li><a href="{% url 'main:about' %}">About</a></li>
+                    <li><a href="{% url 'main:projects' %}">Projects</a></li>
+                    <li><a href="{% url 'main:certifications' %}">Certifications</a></li>
+                    <li><a href="{% url 'main:contact' %}">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Andi — Cloud & DevOps Engineer</p>
+            <div class="footer-links">
+                <a href="{% url 'main:about' %}">About</a>
+                <a href="{% url 'main:projects' %}">Projects</a>
+                <a href="{% url 'main:certifications' %}">Certifications</a>
+                <a href="{% url 'main:contact' %}">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/andi-setiawan-a67b05280/" target="_blank" title="LinkedIn" aria-label="LinkedIn">in</a>
+                <a href="https://github.com/andisetiawann" target="_blank" title="GitHub" aria-label="GitHub">gh</a>
+                <a href="https://www.youtube.com/@AndiSetiawan-wh9je" target="_blank" title="YouTube" aria-label="YouTube">yt</a>
+                <a href="mailto:andisetiawan0890@gmail.com" title="Email" aria-label="Email">@</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop">↑</div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navList = document.getElementById('navList');
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                mobileToggle.classList.toggle('active');
+                navList.classList.toggle('active');
+            });
+
+            // Close menu when clicking a link
+            navList.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileToggle.classList.remove('active');
+                    navList.classList.remove('active');
+                });
+            });
+        }
+
+        // Header scroll effect
+        const header = document.querySelector('.site-header');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Scroll to top button
+        const scrollTop = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '#privacy') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
