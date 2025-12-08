@@ -111,13 +111,18 @@ if not DEBUG:
 
     # Di bagian paling bawah settings.py, tambahkan:
 
-# Railway specific settings
-if 'RAILWAY_ENVIRONMENT' in os.environ:
-    # Use Railway's PORT
-    PORT = os.environ.get('PORT', '8000')
-    
-    # Disable CSRF for Railway initial test (enable later for security)
-    CSRF_TRUSTED_ORIGINS = [
-        'https://*.up.railway.app',
-        'https://*.railway.app'
-    ]
+# Railway Port Configuration
+import os
+
+# Get PORT from environment
+PORT = int(os.environ.get('PORT', 8000))
+
+# CSRF Trusted Origins for Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://portofolio-andi-setiawan-production.up.railway.app',
+    'https://*.railway.app',
+    'https://*.up.railway.app',
+]
+
+# Disable HTTPS redirect for now (testing)
+SECURE_SSL_REDIRECT = False

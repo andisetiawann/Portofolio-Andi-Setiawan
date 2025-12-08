@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn mysite.wsgi --timeout 120 --workers 2 --log-file -
+web: python manage.py migrate && gunicorn mysite.wsgi --bind 0.0.0.0:$PORT
