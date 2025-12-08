@@ -108,3 +108,16 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
+
+    # Di bagian paling bawah settings.py, tambahkan:
+
+# Railway specific settings
+if 'RAILWAY_ENVIRONMENT' in os.environ:
+    # Use Railway's PORT
+    PORT = os.environ.get('PORT', '8000')
+    
+    # Disable CSRF for Railway initial test (enable later for security)
+    CSRF_TRUSTED_ORIGINS = [
+        'https://*.up.railway.app',
+        'https://*.railway.app'
+    ]
